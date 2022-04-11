@@ -1,8 +1,8 @@
 multithread/MultiServer.java
  multithread.MultiServer
-iterative/Client.java
- iterative.Client
+multithread/Reservations.java
+ multithread.Reservations
+multithread/Client.java
+ multithread.Client
 multithread/ServerThread.java
  multithread.ServerThread
-iterative/IterativeServer.java
- iterative.IterativeServer

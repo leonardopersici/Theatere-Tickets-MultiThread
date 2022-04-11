@@ -9,9 +9,7 @@ public class ServerThread extends Thread {
     private Socket connectionSocket = null;
     private BufferedReader inFromClient;
     private DataOutputStream outToClient;
-    int clientX;
-    int clientY;
-    int sumClient;
+    String bookRequest;
 
     // the constructor argument is an established socket
     public ServerThread(Socket s) {
@@ -31,25 +29,20 @@ public class ServerThread extends Thread {
         String clientSentence;
         String capitalizedSentence;
         try {
-            /*clientSentence = inFromClient.readLine();
-            capitalizedSentence = clientSentence.toUpperCase() + '\n';
-            outToClient.writeBytes(capitalizedSentence);*/
-
-            // read a line (that terminates with \n) from the client
-            String[] splitted = inFromClient.readLine().split("\\s+");
-            clientX = parseInt(splitted[0]);
-            clientY = parseInt(splitted[1]);
 
             // wait for 10 seconds
-            //Thread.sleep(10000);
+            Thread.sleep(5000);
 
-            sumClient = clientX + clientY;
-
-            // send the response to the client
-            outToClient.writeBytes(Integer.toString(sumClient) + '\n');
+            if (Reservations.freeSeats() > 0) {
+                Reservations.seats --;
+                bookRequest = "Biglietto prenotato. Rimangono " + Reservations.seats + " biglietti disponibili";
+            }
+            else
+                bookRequest = "Mi spiace, i biglietti sono esauriti";
+            outToClient.writeBytes(bookRequest);
 
             connectionSocket.close();
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
